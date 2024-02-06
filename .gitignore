@@ -1,0 +1,8 @@
+node_modules/
+vendor/
+.env
+# src/ 
+.DS_Store
+#ignore/
+imgNoDone
+imgDone

@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "server",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "problemMatcher": [],
+            "label": "npm: server",
+            "detail": "nodemon index.js",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "npm",
+            "script": "dev",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "label": "Webpack + TailwindCSS",
+            "detail": "concurrently \"npm run css\" \"npm run js\" ",
+
+        }
+    ]
+}
