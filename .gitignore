@@ -4,5 +4,5 @@ vendor/
 # src/ 
 .DS_Store
 #ignore/
-imgNoDone
-imgDone
+# imgNoDone
+# imgDone
