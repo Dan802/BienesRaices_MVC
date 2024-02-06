@@ -1,17 +1,19 @@
 # BienesRaices_MVC
  Bienes Raices MVC NODE Codigo con Juan
 
-Ola
-
 Para iniciar el server
-npm run server
+    npm run server
 
 Para iniciar tailwindCss
-npm run css 
+    npm run css 
 
 Para iniciar webpack
-npm run js
+    npm run js
 
--------------------- package.json
+    npm run db:importar
+    npm run db:eliminar
+
+-------------------- package.json --------------------
+
 "server": "nodemon index.js", 
-// Nodemon, cuando hay cambios recarga el server
+// Nodemon: Cuando hay cambios recarga el server, simil to --watch

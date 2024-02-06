@@ -1,6 +1,6 @@
 (function() {
-    const lat = 20.67444163271174;
-    const lng = -103.38739216304566;
+    const lat = document.querySelector('#lat').value || 20.67444163271174; //Si esta vacio entonces 20.6744....
+    const lng = document.querySelector('#lng').value || -103.38739216304566;
     const mapa = L.map('mapa').setView([lat, lng ], 16);
 
     let marker;
@@ -38,8 +38,8 @@
             marker.bindPopup(resultado.address.LongLabel)
 
             // LLenar los campos
-            document.querySelector('.calle').textContent = resultado?.address?.Address ?? ''
-            document.querySelector('#calle').value = resultado?.address?.Address ?? ''
+            document.querySelector('.street').textContent = resultado?.address?.Address ?? ''
+            document.querySelector('#street').value = resultado?.address?.Address ?? ''
             document.querySelector('#lat').value = resultado?.latlng?.lat ?? ''
             document.querySelector('#lng').value = resultado?.latlng?.lng ?? ''
         })
