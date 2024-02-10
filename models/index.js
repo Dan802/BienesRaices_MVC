@@ -11,11 +11,11 @@ import Usuario from "./Usuario.js";
 
 // Relacion 1 a 1
 // 1 Propiedad tiene 1 Precio
-Propiedad.belongsTo(Precio, {foreignKey: 'precioId'})
+Propiedad.belongsTo(Precio, {foreignKey: 'priceId'})
 // 1 Propiedad tiene 1 Categoria
-Propiedad.belongsTo(Categoria, {foreignKey: 'categoriaId'})
+Propiedad.belongsTo(Categoria, {foreignKey: 'categoryId'})
 // 1 Propiedad tiene 1 Usuario
-Propiedad.belongsTo(Usuario, {foreignKey: 'usuarioId'})
+Propiedad.belongsTo(Usuario, {foreignKey: 'userId'})
 
 export {
     Propiedad,

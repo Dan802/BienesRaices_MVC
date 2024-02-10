@@ -13,7 +13,7 @@ import db from './config/db.js'
 // Crear la app
 const app = express()
 
-// Habilitar lectura de datos de formularios
+// Habilitar lectura de datos de formularios tipo text
 app.use( express.urlencoded( {extended: true}) )
 
 // Habilitar coockie parser 
@@ -30,7 +30,8 @@ app.use( cookieParser() )
           directives: {
             defaultSrc: ["'self'", "geocode.arcgis.com"],
             scriptSrc: ["'self'", "'unsafe-eval'", "unpkg.com", "*.unpkg.com", "cdnjs.cloudflare.com", "*.cdnjs.cloudflare.com"],
-            imgSrc: ["'self'", "*.openstreetmap.org", "unpkg.com", "*.unpkg.com"]
+            imgSrc: ["'self'",  "data:", "*.openstreetmap.org", "unpkg.com", "*.unpkg.com"],
+            connectSrc: ["'self'", "*.hotjar.com"]
           }
         },
     }),);
@@ -66,6 +67,6 @@ app.listen(port, (err) => {
     if(err) { 
         console.log(err); 
     }else {
-        console.log(`El servidor esta funcionando en el puerto ${port}`)
+        console.log(`*****El servidor esta funcionando en el puerto ${port}`)
     }
 });

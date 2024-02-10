@@ -3,8 +3,7 @@ import { Precio, Categoria, Propiedad } from '../models/index.js'
 
 const admin = (req, res) => {
     res.render('propiedades/admin', {
-        page: 'My properties',
-        barra: true
+        page: 'My properties'
     })
 }
 
@@ -18,7 +17,6 @@ const crear = async (req,res) => {
 
     res.render('propiedades/crear', {
         page: 'Create property',
-        barra: true,
         categorias, 
         precios,
         datos: {}
@@ -40,7 +38,6 @@ const guardar = async (req, res) => {
         
         return res.render('propiedades/crear', {
             page: 'Create property',
-            barra: true,
             categorias, 
             precios, 
             errores: resultado.array(),
@@ -49,8 +46,8 @@ const guardar = async (req, res) => {
     }
 
     // Guardar la propiedad en al BD
-
     const {title, description, category : categoryId, price : priceId, rooms, parking_lot, wc, street, lat, lng } = req.body
+    const { id: userId} = req.usuario
 
     try {
         const propiedadGuardada = await Propiedad.create({
@@ -62,19 +59,99 @@ const guardar = async (req, res) => {
             street,
             lat,
             lng,
+            imagen: '',
+            priceId,
             categoryId,
-            priceId
+            userId
         })
+
+        const {id} = propiedadGuardada
+        res.redirect(`/properties/add-image/${id}`)
         
     } catch (error) {
         console.log(error)
     }
-    console.log(req.body)
+}
 
+const agregarImagen = async (req, res) => {
+    
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad exista
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad) {
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad no este publicada
+    if(propiedad.publicado) {
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad pertenece a quien visita esta pagina
+    if(req.usuario.id.toString() !== propiedad.userId.toString()){
+        return res.redirect('/my-properties')
+    }
+
+    res.render('propiedades/agregar-imagen', {
+        page: `Add Image: ${propiedad.title}`,
+        propiedad: propiedad
+    })
+}
+
+const almacenarImagen = async (req, res, next) => {
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad exista
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad) {
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad no este publicada
+    if(propiedad.publicado) {
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad pertenece a quien visita esta pagina
+    if(req.usuario.id.toString() !== propiedad.userId.toString()){
+        return res.redirect('/my-properties')
+    }
+
+    try {
+        
+        // Almacenar la imagen y publicar la propiedad
+        propiedad.imagen = req.file.filename
+        propiedad.publicado = 1;
+
+        await propiedad.save()
+
+        // En el navegador del cliente se llama a dropzen en agregarImagen.js 
+        // Y se redirige la pagina desde allí
+        // Pero del lado del servidor no hemos recibido ninguna instruccion
+
+        // Por eso colocamos next para "desbloquear" la ejecución
+        next()  // Y seguir con el siguiente middleware
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export {
     admin,
     crear,
-    guardar
+    guardar,
+    agregarImagen,
+    almacenarImagen
 }
