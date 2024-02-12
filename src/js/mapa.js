@@ -1,13 +1,15 @@
 (function() {
     const lat = document.querySelector('#lat').value || 20.67444163271174; //Si esta vacio entonces 20.6744....
     const lng = document.querySelector('#lng').value || -103.38739216304566;
+    let marker;
+    
+    // Agregar mapa
     const mapa = L.map('mapa').setView([lat, lng ], 16);
 
-    let marker;
-
-    // utilizar provider y geocoder
+    // utilizar provider y geocoder para obtener la ubi del pin
     const geocodeService = L.esri.Geocoding.geocodeService();
 
+    // Agregar la licencia open source
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mapa);

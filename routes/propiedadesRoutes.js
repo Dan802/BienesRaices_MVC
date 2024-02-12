@@ -1,6 +1,6 @@
 import express from "express"
 import { body } from "express-validator"
-import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios} from "../controllers/propiedadController.js"
+import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, mostrarPropiedad} from "../controllers/propiedadController.js"
 import protegerRuta from "../middleware/protegerRuta.js"
 import upload from '../middleware/subirImagen.js'
 
@@ -39,6 +39,10 @@ router.post('/properties/edit/:id', protegerRuta,
     body('wc').isNumeric().withMessage('Select the number of wc'),
     body('lat').notEmpty().withMessage('Set the ubication on the map'),
     guardarCambios)
+router.post('/properties/delete/:id', protegerRuta, eliminar)
+
+// Zona Pública
+router.get('/property/:id', mostrarPropiedad )
 
 
 export default router

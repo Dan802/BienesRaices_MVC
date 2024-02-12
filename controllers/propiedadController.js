@@ -1,4 +1,5 @@
 import { validationResult} from "express-validator"
+import { unlink } from 'node:fs/promises'
 import { Precio, Categoria, Propiedad } from '../models/index.js'
 
 const admin = async (req, res) => {
@@ -261,9 +262,65 @@ const guardarCambios = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
+}
 
+const eliminar = async (req, res) => {
+
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad) {
+        return res.redirect('/my-properties')
+    }
+
+    // Revisar que el que esta editando es el dueño de la propiedad
+    if(propiedad.userId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/my-properties')
+    }
+
+    // Eliminar la propiedad
+    const borrar = await propiedad.destroy();
     
+    if(borrar) {
 
+        // Eliminar la imagen
+        await unlink(`public/uploads/${propiedad.imagen}`)
+        console.log(`Se eliminó la imagen ${propiedad.imagen}`)
+
+        res.redirect('/my-properties')
+    }
+}
+
+const mostrarPropiedad = async (req, res) => {
+
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id, {
+        include: [
+            { model: Categoria, as: 'categoria' },
+            { model: Precio, as: 'precio' }
+        ]
+    })
+
+    if(!propiedad) {
+        return res.redirect('/404')
+    }
+
+    res.render('propiedades/mostrar', {
+        page: propiedad.title,
+        propiedad
+    })
 }
 
 export {
@@ -273,5 +330,7 @@ export {
     agregarImagen,
     almacenarImagen,
     editar,
-    guardarCambios
+    guardarCambios, 
+    eliminar,
+    mostrarPropiedad
 }

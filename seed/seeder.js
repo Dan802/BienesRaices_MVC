@@ -3,11 +3,12 @@ import {exit} from 'node:process'
 import categorias from "./categorias.js";
 import precios from "./precios.js";
 import usuarios from "./usuarios.js";
+import propiedades from "./propiedades.js";
 
 import db from "../config/db.js";
 
 // Importamos los modelos con sus respectivas relaciones(1:1, 1:n, llaves foraneas...)
-import {Categoria , Precio, Usuario} from '../models/index.js' 
+import {Categoria , Precio, Usuario, Propiedad} from '../models/index.js' 
 
 const importarDatos = async () => {
     try {
@@ -21,7 +22,8 @@ const importarDatos = async () => {
         await Promise.all([
             Categoria.bulkCreate(categorias),
             Precio.bulkCreate(precios),
-            Usuario.bulkCreate(usuarios)
+            Usuario.bulkCreate(usuarios),
+            Propiedad.bulkCreate(propiedades)
         ])
 
         console.log('*****Datos Importados Correctamente')
