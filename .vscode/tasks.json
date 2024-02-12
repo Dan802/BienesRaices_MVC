@@ -3,6 +3,16 @@
     "tasks": [
         {
             "type": "npm",
+            "script": "dev",
+            "runOptions": {
+                "runOn": "folderOpen"
+            },
+            "label": "Webpack + TailwindCSS",
+            "detail": "concurrently \"npm run css\" \"npm run js\" ",
+
+        },
+        {
+            "type": "npm",
             "script": "server",
             "runOptions": {
                 "runOn": "folderOpen"
@@ -14,16 +24,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "type": "npm",
-            "script": "dev",
-            "runOptions": {
-                "runOn": "folderOpen"
-            },
-            "label": "Webpack + TailwindCSS",
-            "detail": "concurrently \"npm run css\" \"npm run js\" ",
-
-        }
+        }        
     ]
 }

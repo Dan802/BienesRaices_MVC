@@ -1,9 +1,23 @@
 import { validationResult} from "express-validator"
 import { Precio, Categoria, Propiedad } from '../models/index.js'
 
-const admin = (req, res) => {
+const admin = async (req, res) => {
+
+    const { id } = req.usuario
+
+    const propiedades = await Propiedad.findAll({
+        where: {
+            userId: id
+        },
+        include: [ // Join: llamar otras tablas con llaves foraneas
+            { model: Categoria, as: 'categoria' },
+            { model: Precio, as: 'precio' },
+        ]
+    })
+
     res.render('propiedades/admin', {
-        page: 'My properties'
+        page: 'My properties',
+        propiedades
     })
 }
 
@@ -148,10 +162,116 @@ const almacenarImagen = async (req, res, next) => {
     }
 }
 
+const editar = async (req, res) => {
+
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad) {
+        return res.redirect('/my-properties')
+    }
+
+    // Revisar que el que esta editando es el dueño de la propiedad
+    if(propiedad.userId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/my-properties')
+    }
+
+    // Obtenemos los precios y categorias de la BD
+    const [categorias, precios] = await Promise.all([
+        Categoria.findAll(),
+        Precio.findAll()
+    ])
+
+    res.render('propiedades/editar', {
+        page: `Edit Property ${propiedad.title}`,
+        categorias, 
+        precios,
+        datos: propiedad
+    })
+}
+
+const guardarCambios = async (req, res) => {
+
+    // Verificar la validación
+    let resultado = validationResult(req)
+
+    if(!resultado.isEmpty()) {
+
+         // Obtenemos los precios y categorias de la BD
+        const [categorias, precios] = await Promise.all([
+            Categoria.findAll(),
+            Precio.findAll()
+        ])
+         
+        return res.render('propiedades/editar', {
+            page: 'Edit Property',
+            categorias, 
+            precios,
+            errores: resultado.array(),
+            datos: req.body
+        })
+    }
+
+    const {id} = req.params
+
+    if( typeof id !== 'string'){
+        return res.redirect('/my-properties')
+    }
+
+    // Validar que la propiedad existe
+    const propiedad = await Propiedad.findByPk(id)
+
+    if(!propiedad) {
+        return res.redirect('/my-properties')
+    }
+
+    // Revisar que el que esta editando es el dueño de la propiedad
+    if(propiedad.userId.toString() !== req.usuario.id.toString()) {
+        return res.redirect('/my-properties')
+    }
+
+    // Reescribir el objeto y actualizarlo
+    try {
+        
+        const {title, description, category : categoryId, price : priceId, rooms, parking_lot, wc, street, lat, lng } = req.body
+
+        propiedad.set({
+            title,
+            description,
+            categoryId,
+            priceId,
+            rooms,
+            parking_lot,
+            wc,
+            street,
+            lat,
+            lng
+        })
+
+        await propiedad.save()
+
+        res.redirect('/my-properties')
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    
+
+}
+
 export {
     admin,
     crear,
     guardar,
     agregarImagen,
-    almacenarImagen
+    almacenarImagen,
+    editar,
+    guardarCambios
 }

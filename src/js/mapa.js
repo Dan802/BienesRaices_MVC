@@ -32,10 +32,13 @@
             if(error) {
                 console.log(error)
             } else {
+                console.log(resultado)
                 console.log(resultado.address.LongLabel)
             }
 
             marker.bindPopup(resultado.address.LongLabel)
+
+            console.log('hola desde mapa')
 
             // LLenar los campos
             document.querySelector('.street').textContent = resultado?.address?.Address ?? ''

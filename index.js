@@ -31,7 +31,7 @@ app.use( cookieParser() )
             defaultSrc: ["'self'", "geocode.arcgis.com"],
             scriptSrc: ["'self'", "'unsafe-eval'", "unpkg.com", "*.unpkg.com", "cdnjs.cloudflare.com", "*.cdnjs.cloudflare.com"],
             imgSrc: ["'self'",  "data:", "*.openstreetmap.org", "unpkg.com", "*.unpkg.com"],
-            connectSrc: ["'self'", "*.hotjar.com"]
+            // connectSrc: ["'self'", "*.hotjar.com", ] //! Si se descomenta daña el mapa de leaflet 
           }
         },
     }),);
