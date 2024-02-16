@@ -1,8 +1,9 @@
+//* Añadir en webpack.config.js
 (function(){
 
     const lat = document.querySelector('#lat').textContent
     const lng = document.querySelector('#lng').textContent
-    const zoom = 16
+    const zoom = 15
     // const calle = document.querySelector('#streetProperty').textContent
     const titulo = document.querySelector('#titleMap').textContent
 

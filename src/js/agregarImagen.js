@@ -1,3 +1,4 @@
+//* Añadir en webpack.config.js
 import { Dropzone } from "dropzone";
 
 // Si requerimos enviar un token:

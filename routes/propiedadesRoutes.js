@@ -4,12 +4,9 @@ import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCa
 import protegerRuta from "../middleware/protegerRuta.js"
 import upload from '../middleware/subirImagen.js'
 
-import {formularioLogin} from "../controllers/usuarioController.js"; //! Borrar
-
 const router = express.Router()
 
 // Zona Privada
-router.get('/', formularioLogin)
 router.get('/my-properties', protegerRuta, admin)
 router.get('/properties/create', protegerRuta, crear)
 router.post('/properties/create', protegerRuta, 

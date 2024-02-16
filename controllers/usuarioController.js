@@ -292,8 +292,8 @@ const nuevoPassword = async (req, res) => {
 }
 
 export {
-    formularioLogin, 
     autenticar,
+    formularioLogin,
     formularioRegistro,
     registrar,
     confirmar,

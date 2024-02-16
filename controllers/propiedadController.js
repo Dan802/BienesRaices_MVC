@@ -4,23 +4,58 @@ import { Precio, Categoria, Propiedad } from '../models/index.js'
 
 const admin = async (req, res) => {
 
+    // QueryString: valores en la url
+    // req.query
+
+    const {page: paginaActual} = req.query
+    const expresionRegular = /^[0-9]$/ // Solo admite numeros de 0 a 9
+    
+    if(!expresionRegular.test(paginaActual)) {
+        return res.redirect('/my-properties?page=1')
+    }
+
+    // limites y offset para el paginador
+    const limitePorPagina = 1
+    const salto_Offset = ((paginaActual * limitePorPagina) - limitePorPagina)
+
     const { id } = req.usuario
 
-    const propiedades = await Propiedad.findAll({
-        where: {
-            userId: id
-        },
-        include: [ // Join: llamar otras tablas con llaves foraneas
-            { model: Categoria, as: 'categoria' },
-            { model: Precio, as: 'precio' },
-        ]
-    })
+    try {
 
-    res.render('propiedades/admin', {
-        page: 'My properties',
-        propiedades
-    })
+        const [ propiedades, totalPropiedades ] = await Promise.all([
+            Propiedad.findAll({
+                limit: limitePorPagina,
+                offset: salto_Offset,
+                where: {
+                    userId: id
+                },
+                include: [ // Join: llamar otras tablas con llaves foraneas
+                    { model: Categoria, as: 'categoria' },
+                    { model: Precio, as: 'precio' },
+                ]
+            }),
+            Propiedad.count({
+                where: {
+                    userId : id
+                }
+            })
+        ])  
+
+        res.render('propiedades/admin', {
+            page: 'My properties',
+            propiedades,
+            paginas: Math.ceil(totalPropiedades / limitePorPagina), // ceil: Redondea hacia arriba
+            paginaActual: Number(paginaActual),
+            totalPropiedades,
+            salto_Offset,
+            limitePorPagina
+        })
+        
+    } catch (error) {
+        console.log(error)        
+    }
 }
+
 
 const crear = async (req,res) => {
 

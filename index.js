@@ -8,6 +8,8 @@ import helmet from "helmet";
 // Los archivos que uno crea requieren el .js, las dependencias no
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import propiedadesRoutes from './routes/propiedadesRoutes.js'
+import appRoutes from './routes/appRoutes.js'
+import apiRoutes from './routes/apiRoutes.js'
 import db from './config/db.js'
 
 // Crear la app
@@ -56,8 +58,10 @@ app.set('views', './views')
 app.use(express.static('public'))
 
 //Routing 
+app.use('/', appRoutes)
 app.use('/auth', usuarioRoutes) //Busca todas las rutas que inician con /auth
 app.use('/', propiedadesRoutes) 
+app.use('/api', apiRoutes)
 
 // Definir puerto
 const port = process.env.PORT

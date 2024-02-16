@@ -1,5 +1,5 @@
 # BienesRaices_MVC
- Bienes Raices MVC NODE Codigo con Juan
+Bienes Raices MVC NODE Codigo con Juan
 
 ### Iniciar el server
 ```sh

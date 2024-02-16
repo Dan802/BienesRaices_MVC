@@ -1,10 +1,13 @@
+//* Añadir en webpack.config.js
 (function() {
-    const lat = document.querySelector('#lat').value || 20.67444163271174; //Si esta vacio entonces 20.6744....
-    const lng = document.querySelector('#lng').value || -103.38739216304566;
+
+    const lat = document.querySelector('#lat').value || 40.78693700939038; //Si esta vacio entonces 20.6744....
+    const lng = document.querySelector('#lng').value || -73.96684521097656;
+    const zoom = 15
     let marker;
     
     // Agregar mapa
-    const mapa = L.map('mapa').setView([lat, lng ], 16);
+    const mapa = L.map('mapa').setView([lat, lng ], zoom);
 
     // utilizar provider y geocoder para obtener la ubi del pin
     const geocodeService = L.esri.Geocoding.geocodeService();
