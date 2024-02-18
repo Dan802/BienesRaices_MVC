@@ -1,8 +1,9 @@
 import express from "express"
 import { body } from "express-validator"
-import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, mostrarPropiedad} from "../controllers/propiedadController.js"
+import {admin, crear, guardar, agregarImagen, almacenarImagen, editar, guardarCambios, eliminar, cambiarEstado, mostrarPropiedad, enviarMensaje, verMensajes} from "../controllers/propiedadController.js"
 import protegerRuta from "../middleware/protegerRuta.js"
 import upload from '../middleware/subirImagen.js'
+import identificarUsuario from "../middleware/identificarUsuario.js"
 
 const router = express.Router()
 
@@ -37,9 +38,15 @@ router.post('/properties/edit/:id', protegerRuta,
     body('lat').notEmpty().withMessage('Set the ubication on the map'),
     guardarCambios)
 router.post('/properties/delete/:id', protegerRuta, eliminar)
+router.put('/properties/:id', protegerRuta, cambiarEstado)
 
 // Zona Pública
-router.get('/property/:id', mostrarPropiedad )
+router.get('/property/:id', identificarUsuario, mostrarPropiedad )
+router.post('/property/:id', identificarUsuario, 
+body('mensaje').isLength({min: 10}).withMessage('The message is too short'),
+body('mensaje').isLength({max: 200}).withMessage('The message is too long'),
+    enviarMensaje)
+router.get('/messages/:id', protegerRuta, verMensajes)
 
 
 export default router

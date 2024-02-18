@@ -27,7 +27,7 @@ block content
         div(id="mapa-inicio" class="h-[600px] mt-5")
 
         section(class="py-5")
-            h2(class="text-center text-4xl font-extrabold pt-10") Houses for sale
+            h2(class="text-center text-4xl font-extrabold pt-10 capitalize") Houses for sale
             //- pre= JSON.stringify(casas, undefined, 2)
 
             div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
@@ -35,8 +35,8 @@ block content
                     include ./templates/card
 
         section(class="py-5")
-            h2(class="text-center text-4xl font-extrabold pt-10") Apartments for sale
-            //- pre= JSON.stringify(casas, undefined, 2)
+            h2(class="text-center text-4xl font-extrabold pt-10 capitalize") Apartments for sale
+            //- pre= JSON.stringify(departamentos, undefined, 2)
 
             div(class="grid grid-cols-1 lg:grid-cols-3 gap-5 mt-14")
                 each propiedad in departamentos 
