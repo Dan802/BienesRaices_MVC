@@ -1,0 +1,26 @@
+header.bg-indigo-600.p-4
+    .container.mx-auto.flex.justify-between.items-center
+        a(href="/") 
+            h1.text-2xl.text-white.font-extrabold.text-center Real
+                span.font-normal Estate
+
+        nav(class="my-5 text-sm md:flex md:items-center md:gap-3  font-bold text-white")
+            a(href="/my-properties") My properties
+            //- a(href="") My profile
+            form(action="/auth/logout" method="POST") 
+                input(type="submit" value="Log Out" class="bg-indigo-800 py-2 px-10 rounded-lg cursor-pointer")
+
+div(class="bg-indigo-700 py-5 hidden lg:block")
+    div(class="container mx-auto flex justify-between")
+        nav(class="flex gap-4 items-center")
+            a(href="/categories/1" class="text-sm font-bold uppercase text-white") House  
+            a(href="/categories/2" class="text-sm font-bold uppercase text-white") Department 
+            a(href="/categories/3" class="text-sm font-bold uppercase text-white") Warehouse
+            a(href="/categories/4" class="text-sm font-bold uppercase text-white") Land
+            a(href="/categories/5" class="text-sm font-bold uppercase text-white") Cabin  
+
+        form(action="/search" method="POST" class="flex gap-3 items-center") 
+            //- label(for="termino" class="text-sm uppercase font-bold text-white") Explorer
+            input(type="text" name="termino" placeholder="Search Properties" class="p-2 rounded-lg shadow text-sm")
+
+            input(type="submit" class="bg-indigo-800 hover:bg-indigo-400 rounded-lg text-white uppercase font-bold p-2 cursor-pointer text-sm " value="Search") 

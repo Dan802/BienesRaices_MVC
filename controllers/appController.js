@@ -38,12 +38,19 @@ const inicio = async (req, res) => {
         })
     ])
 
+    // Identificar si el usuario ya inició sesión
+    let isAdmin = false
+    if(req.usuario) {
+        isAdmin = true
+    }
+
     res.render('inicio',{
         page: 'Home',
         categorias,
         precios,
         casas,
-        departamentos
+        departamentos, 
+        isAdmin
     })
 }
 
@@ -73,15 +80,31 @@ const categoria = async (req, res) => {
         limit: 100
     })
 
+    // Identificar si el usuario ya inició sesión
+    let isAdmin = false
+    if(req.usuario) {
+        isAdmin = true
+    }
+
+
     res.render('categoria', {
         page: `${categoria.nombre}s for Sale`,
-        propiedades
+        propiedades,
+        isAdmin
     })
 }
 
 const noEncontrado = (req, res) => {
+
+    // Identificar si el usuario ya inició sesión
+    let isAdmin = false
+    if(req.usuario) {
+        isAdmin = true
+    }
+
     res.render('404', {
-        page: 'Page not found'
+        page: 'Page not found',
+        isAdmin
     })
 }
 
@@ -106,9 +129,16 @@ const buscador = async (req, res) => {
         ]
     })
 
+    // Identificar si el usuario ya inició sesión
+    let isAdmin = false
+    if(req.usuario) {
+        isAdmin = true
+    }
+
     res.render('busqueda', {
         page: `"${termino}" Search results`,
         propiedades,
+        isAdmin
     })
 }
 

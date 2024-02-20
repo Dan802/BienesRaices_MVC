@@ -385,12 +385,19 @@ const mostrarPropiedad = async (req, res) => {
         return res.redirect('/404')
     }
 
+    // Identificar si el usuario ya inició sesión
+    let isAdmin = false
+    if(req.usuario) {
+        isAdmin = true
+    }
+
     res.render('propiedades/mostrar', {
         page: propiedad.title,
         propiedad,
         usuario: req.usuario, // null o usuario,
         // esVendedor = true o false
-        esVendedor: esVendedor(req.usuario?.id, propiedad.userId)
+        esVendedor: esVendedor(req.usuario?.id, propiedad.userId),
+        isAdmin
     })
 }
 
