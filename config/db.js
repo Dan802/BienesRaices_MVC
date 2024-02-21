@@ -10,7 +10,7 @@ const db = new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env
         timestamps: true    //Cuando se crea un usuario y cuando es actualizado
     },
     pool: { 
-        max: 10, // Conexiones maximas a la base de datos por usuario 5
+        max: 500, // Conexiones maximas a la base de datos por usuario 5
         min: 0,
         acquire: 30000, // 30s antes de marcar error
         idle: 10000 // 10s pa finalizar la conexion
