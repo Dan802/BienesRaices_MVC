@@ -6,11 +6,11 @@ import cookieParser from 'cookie-parser'
 import helmet from "helmet";
 
 // Los archivos que uno crea requieren el .js, las dependencias no
+import db from './config/db.js'
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import propiedadesRoutes from './routes/propiedadesRoutes.js'
 import appRoutes from './routes/appRoutes.js'
 import apiRoutes from './routes/apiRoutes.js'
-import db from './config/db.js'
 
 // Crear la app
 const app = express()

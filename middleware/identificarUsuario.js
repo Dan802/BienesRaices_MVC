@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Usuario from "../models/Usuario.js";
+// import Usuario from "../models/Usuario.js";
 
 /**
  * Identifica si hay un token en las cookies, identifica que usaurio es, y lo alamacena en request
@@ -23,7 +23,8 @@ const identificarUsuario = async (req, res, next) => {
 
         const decoded = jwt.verify(_token, process.env.JWT_SECRET)
         
-        const usuario = await Usuario.scope('eliminarPassword').findByPk(decoded.id)
+        const usuario = false
+        // const usuario = await Usuario.scope('eliminarPassword').findByPk(decoded.id)
         // .scope: operacion intermedia, en este caso elimina datos sensibles
         // así quedaría: usuario = { id: 1, name: '', email: '' }
 

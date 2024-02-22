@@ -49,7 +49,7 @@ const inicio = async (req, res) => {
     res.render('inicio',{
         page: 'Home',
         categorias,
-        precios,
+        precios, 
         casas,
         departamentos, 
         isAdmin

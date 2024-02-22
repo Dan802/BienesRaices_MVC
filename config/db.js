@@ -16,7 +16,7 @@ const db = new Sequelize(process.env.BD_NOMBRE, process.env.BD_USER, process.env
         idle: 10000 // 10s pa finalizar la conexion
     }, 
     operatorAliases: false,
-    // logging: true
+    logging: false
 }) 
 
 export default db;
