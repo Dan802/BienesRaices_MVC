@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-// import Usuario from "../models/Usuario.js";
+import Usuario from "../models/Usuario.js";
 
 /**
  * Identifica si hay un token en las cookies, identifica que usaurio es, y lo alamacena en request
