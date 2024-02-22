@@ -4,7 +4,6 @@ import {Precio, Categoria, Propiedad} from "../models/index.js"
 const inicio = async (req, res) => {
         
     const categorias = await Categoria.findAll({raw: true})
-
     const precios = await Precio.findAll({raw: true})
 
     const [ casas, departamentos ] = await Promise.all([

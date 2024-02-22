@@ -41,8 +41,7 @@ app.use( cookieParser() )
 
 
 // Conexión a la base de datos
-(
-    async () => {
+( async () => {
         try {
             await db.authenticate();
             await db.sync() // Create tables if no existe 
@@ -50,8 +49,7 @@ app.use( cookieParser() )
         } catch(error) {
             console.log(error)
         }
-    }
-)()
+})()
 
 // Habilitar Pug (Template engine)
 app.set('view engine', 'pug')
@@ -62,9 +60,9 @@ app.use(express.static('public'))
 
 //Routing 
 app.use('/', appRoutes)
-// app.use('/auth', usuarioRoutes) //Busca todas las rutas que inician con /auth
-// app.use('/', propiedadesRoutes) 
-// app.use('/api', apiRoutes)
+app.use('/auth', usuarioRoutes) //Busca todas las rutas que inician con /auth
+app.use('/', propiedadesRoutes) 
+app.use('/api', apiRoutes)
 
 // Definir puerto
 const port = process.env.PORT
